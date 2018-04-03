@@ -18,6 +18,7 @@ namespace NotesAPI.Controllers
         public NotesController(IRepository<Notes> _repo)
         {
             NotesRepo = _repo;
+
         }
 
         // GET: api/Notes

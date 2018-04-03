@@ -3,38 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NotesAPI.Models.Entities;
+using NotesAPI.Repository.Context;
 
 namespace NotesAPI.Repository
 {
     public class NotesRepository : IRepository<Notes>
     {
-        static List<Notes> NotesList = new List<Notes>();
+        NotesContext _context;
+        public NotesRepository(NotesContext context)
+        {
+            _context = context;
+        }
 
         public void Add(Notes item)
         {
-            NotesList.Add(item);
+            _context.Notes.Add(item);
         }
 
         public IEnumerable<Notes> GetAll()
         {
-            return NotesList;
+            return _context.Notes.ToList();
         }
 
         public Notes GetById(int id)
         {
-            return NotesList.Where(n => n.Id.Equals(id)).SingleOrDefault();
+            return _context.Notes.Where(n => n.Id.Equals(id)).SingleOrDefault();
         }
 
         public void Remove(int Id)
         {
-            var itemToRemove = NotesList.SingleOrDefault(r => r.Id == Id);
+            var itemToRemove = _context.Notes.SingleOrDefault(r => r.Id == Id);
             if (itemToRemove != null)
-                NotesList.Remove(itemToRemove);
+                _context.Notes.Remove(itemToRemove);
         }
 
         public void Update(Notes item)
         {
-            var itemToUpdate = NotesList.SingleOrDefault(r => r.Id == item.Id);
+            var itemToUpdate = _context.Notes.SingleOrDefault(r => r.Id == item.Id);
             if (itemToUpdate != null)
             {
                 
@@ -44,6 +49,7 @@ namespace NotesAPI.Repository
                 itemToUpdate.CategoryId = item.CategoryId;
                 itemToUpdate.IsDeleted = item.IsDeleted;
                 itemToUpdate.UserId = item.UserId;
+                _context.SaveChanges();
             }
         }
     }

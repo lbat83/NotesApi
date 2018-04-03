@@ -11,7 +11,7 @@ using System;
 namespace NotesAPI.Migrations
 {
     [DbContext(typeof(NotesContext))]
-    [Migration("20180403213356_init")]
+    [Migration("20180403224051_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

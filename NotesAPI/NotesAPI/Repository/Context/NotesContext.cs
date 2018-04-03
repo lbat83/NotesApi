@@ -9,16 +9,16 @@ namespace NotesAPI.Repository.Context
 {
     public class NotesContext : DbContext
     {
-        public NotesContext()
-        {
-
-        }
         public NotesContext(DbContextOptions<NotesContext> options) : base(options)
         {
 
         }
-        public DbSet<User> User { get; set; }
+        public NotesContext()
+        {
+
+        }
         public DbSet<Notes> Notes { get; set; }
+        public DbSet<User> User { get; set; }
         public DbSet<Category> Category { get; set; }
     }
 }
