@@ -18,6 +18,8 @@ namespace NotesAPI.Repository
         public void Add(Notes item)
         {
             _context.Notes.Add(item);
+            _context.SaveChanges();
+            
         }
 
         public IEnumerable<Notes> GetAll()
@@ -45,7 +47,7 @@ namespace NotesAPI.Repository
                 
                 itemToUpdate.Title = item.Title;
                 itemToUpdate.Note = item.Note;
-                itemToUpdate.CreatedOn = item.CreatedOn = DateTime.Now;
+                itemToUpdate.CreatedOn = item.CreatedOn; 
                 itemToUpdate.CategoryId = item.CategoryId;
                 itemToUpdate.IsDeleted = item.IsDeleted;
                 itemToUpdate.UserId = item.UserId;

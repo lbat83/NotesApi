@@ -17,6 +17,6 @@ namespace NotesAPI.Models.Entities
         public string Name { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public DateTime CreatedOn { get; set; }
     }
 }

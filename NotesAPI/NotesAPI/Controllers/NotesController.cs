@@ -48,6 +48,8 @@ namespace NotesAPI.Controllers
             {
                 return BadRequest();
             }
+            
+            
             NotesRepo.Add(item);
             return CreatedAtRoute("GetNotes", new { Controller = "Notes", id = item.Id }, item);
         }
