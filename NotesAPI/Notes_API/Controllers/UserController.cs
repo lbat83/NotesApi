@@ -9,27 +9,28 @@ using Notes_API.Entities;
 namespace Notes_API.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Notes")]
-    public class NotesController : Controller
+    [Route("api/User")]
+    public class UserController : Controller
     {
         private readonly NotesContext _context;
 
-        public NotesController(NotesContext context)
+        public UserController(NotesContext context)
         {
             _context = context;
         }
-        // GET: api/Notes
+
+        // GET: api/User
         [HttpGet]
-        public IEnumerable<Notes> GetAll()
+        public IEnumerable<User> GetAll()
         {
-            return _context.Notes.ToList();
+            return _context.User.ToList();
         }
 
-        // GET: api/Notes/5
-        [HttpGet("{id}", Name = "GetNotes")]
+        // GET: api/User/5
+        [HttpGet("{id}", Name = "GetUser")]
         public IActionResult GetById(int id)
         {
-            var item = _context.Notes.FirstOrDefault(n => n.Id == id);
+            var item = _context.User.FirstOrDefault(u => u.Id == id);
             if (item == null)
             {
                 return NotFound();
@@ -37,43 +38,40 @@ namespace Notes_API.Controllers
             return new ObjectResult(item);
         }
         
-        // POST: api/Notes
+        // POST: api/User
         [HttpPost]
-        public IActionResult Post([FromBody] Notes item)
+        public IActionResult Post([FromBody]User item)
         {
             if (item == null)
             {
                 return BadRequest();
             }
-            _context.Notes.Add(item);
+            _context.User.Add(item);
             _context.SaveChanges();
 
-            return CreatedAtRoute("GetNotes", new { id = item.Id }, item);
+            return CreatedAtRoute("GetUser", new { id = item.Id }, item);
         }
         
-        // PUT: api/Notes/5
+        // PUT: api/User/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Notes item)
+        public IActionResult Put(int id, [FromBody] User item)
         {
             if (item == null || item.Id != id)
             {
                 return BadRequest();
             }
 
-            var note = _context.Notes.FirstOrDefault(n => n.Id == id);
-            if (note == null)
+            var user = _context.User.FirstOrDefault(u => u.Id == id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            note.Title = item.Title;
-            note.Note = item.Note;
-            note.CreatedOn = item.CreatedOn;
-            note.CategoryId = item.CategoryId;
-            note.IsDeleted = item.IsDeleted;
-            note.UserId = item.UserId;
+            user.Email = item.Email;
+            user.Name = item.Name;
+            user.CreatedOn = item.CreatedOn;
 
-            _context.Notes.Update(note);
+            _context.User.Update(user);
             _context.SaveChanges();
             return new NoContentResult();
         }
@@ -82,13 +80,13 @@ namespace Notes_API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var note = _context.Notes.FirstOrDefault(n => n.Id == id);
-            if (note == null)
+            var user = _context.User.FirstOrDefault(t => t.Id == id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            _context.Notes.Remove(note);
+            _context.User.Remove(user);
             _context.SaveChanges();
             return new NoContentResult();
         }

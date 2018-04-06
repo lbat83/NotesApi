@@ -9,27 +9,28 @@ using Notes_API.Entities;
 namespace Notes_API.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Notes")]
-    public class NotesController : Controller
+    [Route("api/Category")]
+    public class CategoryController : Controller
     {
         private readonly NotesContext _context;
 
-        public NotesController(NotesContext context)
+        public CategoryController(NotesContext context)
         {
             _context = context;
         }
-        // GET: api/Notes
+
+        // GET: api/Category
         [HttpGet]
-        public IEnumerable<Notes> GetAll()
+        public IEnumerable<Category> GetAll()
         {
-            return _context.Notes.ToList();
+            return _context.Category.ToList();
         }
 
-        // GET: api/Notes/5
-        [HttpGet("{id}", Name = "GetNotes")]
+        // GET: api/Category/5
+        [HttpGet("{id}", Name = "GetCategory")]
         public IActionResult GetById(int id)
         {
-            var item = _context.Notes.FirstOrDefault(n => n.Id == id);
+            var item = _context.Category.FirstOrDefault(c => c.Id == id);
             if (item == null)
             {
                 return NotFound();
@@ -37,43 +38,38 @@ namespace Notes_API.Controllers
             return new ObjectResult(item);
         }
         
-        // POST: api/Notes
+        // POST: api/Category
         [HttpPost]
-        public IActionResult Post([FromBody] Notes item)
+        public IActionResult Post([FromBody]Category item)
         {
             if (item == null)
             {
                 return BadRequest();
             }
-            _context.Notes.Add(item);
+            _context.Category.Add(item);
             _context.SaveChanges();
 
-            return CreatedAtRoute("GetNotes", new { id = item.Id }, item);
+            return CreatedAtRoute("GetCategory", new { id = item.Id }, item);
         }
         
-        // PUT: api/Notes/5
+        // PUT: api/Category/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Notes item)
+        public IActionResult Put(int id, [FromBody] Category item)
         {
             if (item == null || item.Id != id)
             {
                 return BadRequest();
             }
 
-            var note = _context.Notes.FirstOrDefault(n => n.Id == id);
-            if (note == null)
+            var cat = _context.Category.FirstOrDefault(c => c.Id == id);
+            if (cat == null)
             {
                 return NotFound();
             }
 
-            note.Title = item.Title;
-            note.Note = item.Note;
-            note.CreatedOn = item.CreatedOn;
-            note.CategoryId = item.CategoryId;
-            note.IsDeleted = item.IsDeleted;
-            note.UserId = item.UserId;
+            cat.Name = item.Name;
 
-            _context.Notes.Update(note);
+            _context.Category.Update(cat);
             _context.SaveChanges();
             return new NoContentResult();
         }
@@ -82,13 +78,13 @@ namespace Notes_API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var note = _context.Notes.FirstOrDefault(n => n.Id == id);
-            if (note == null)
+            var cat = _context.Category.FirstOrDefault(t => t.Id == id);
+            if (cat == null)
             {
                 return NotFound();
             }
 
-            _context.Notes.Remove(note);
+            _context.Category.Remove(cat);
             _context.SaveChanges();
             return new NoContentResult();
         }
